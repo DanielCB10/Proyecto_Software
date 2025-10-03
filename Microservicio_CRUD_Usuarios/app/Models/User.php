@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'monto',
         'role',
         'status',
         'is_deleted',

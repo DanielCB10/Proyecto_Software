@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('monto')->default(0); // Campo para el monto
             $table->string('role',50)->default('user'); // Campo para el rol del usuario
             $table->string('status',20)->default('active'); // Campo para el estado del usuario
             $table->boolean('is_deleted')->default(false); // Campo para eliminación lógica
