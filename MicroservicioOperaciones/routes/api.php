@@ -30,6 +30,7 @@ Route::delete('accounts/{id}', [CuentaController::class, 'destroy']);
 
 
 
+// Operaciones de cuenta
 Route::post('accounts/{id}/deposit', [CuentaController::class, 'deposit']);
 Route::post('accounts/{id}/withdraw', [CuentaController::class, 'withdraw']);
 Route::post('accounts/transfer', [CuentaController::class, 'transfer']);
