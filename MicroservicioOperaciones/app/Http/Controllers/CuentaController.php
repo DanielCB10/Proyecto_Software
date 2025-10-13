@@ -78,29 +78,41 @@ class CuentaController extends Controller
     }
 
 
-     public function transfer(Request $request)
-    {
-        $request->validate([
-            'cuenta_origen' => 'required|exists:cuentas,numero_cuenta',
-            'cuenta_destino' => 'required|exists:cuentas,numero_cuenta|different:cuenta_origen',
-            'monto' => 'required|numeric|min:1',
-        ]);
+  public function transfer(Request $request)
+{
+    $request->validate([
+        'cuenta_origen' => 'required|exists:cuentas,numero_cuenta',
+        'cuenta_destino' => 'required|exists:cuentas,numero_cuenta|different:cuenta_origen',
+        'monto' => 'required|numeric|min:1',
+    ]);
 
-        $origen = Cuenta::where('numero_cuenta', $request->cuenta_origen)->first();
-        $destino = Cuenta::where('numero_cuenta', $request->cuenta_destino)->first();
+    $origen = Cuenta::where('numero_cuenta', $request->cuenta_origen)->first();
+    $destino = Cuenta::where('numero_cuenta', $request->cuenta_destino)->first();
 
-        if ($origen->monto < $request->monto) {
-            return response()->json(['error' => 'Fondos insuficientes en la cuenta origen'], 400);
-        }
-
-        $origen->monto -= $request->monto;
-        $destino->monto += $request->monto;
-
-        $origen->save();
-        $destino->save();
-
-        return response()->json(['message' => 'Transferencia exitosa']);
+    if (!($origen && $destino)) {
+        return response()->json([
+            'error' => 'Una o ambas cuentas no existen en el sistema.'
+        ], 404);
     }
+
+    if ($origen->monto < $request->monto) {
+        return response()->json([
+            'error' => 'Fondos insuficientes en la cuenta origen'
+        ], 400);
+    }
+
+    $origen->monto -= $request->monto;
+    $destino->monto += $request->monto;
+
+    $origen->save();
+    $destino->save();
+
+    return response()->json([
+        'message' => 'Transferencia exitosa'
+    ], 200);
+}
+
+
     }
 
   
