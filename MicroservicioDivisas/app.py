@@ -21,11 +21,9 @@ STATIC_RATES = {
     ("COP", "USD"): 0.000263,
 }
 
-# ====== Caché e historial en memoria (fallback) ======
-_rate_cache_mem = {}     # key -> (rate, ts)
-_history_mem = []        # lista de registros (más reciente primero)
+_rate_cache_mem = {}     
+_history_mem = []        
 
-# ====== Mongo (opcional) ======
 mongo_available = False
 rates_col = None
 conversions_col = None
